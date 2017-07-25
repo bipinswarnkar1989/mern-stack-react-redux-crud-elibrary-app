@@ -32,7 +32,7 @@ class BookPage extends React.Component {
           <tbody>
           {this.props.books.map((b,i) => <tr key={i}>
           <td>{b.title}</td>
-           <td><Link to={`/books/${b.id}`}>View</Link> </td>
+           <td><Link to={`/books/${b._id}`}>View</Link> </td>
            </tr> )}
           </tbody>
           </table>

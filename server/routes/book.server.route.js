@@ -1,12 +1,13 @@
 import express from 'express';
-import bookController from '../controllers/book.server.controller';
+import * as  bookController from '../controllers/book.server.controller';
 
 const router = express.Router();
 
+
+
 router.route('/')
-      .get((req,res) => {
-       return res.json({ message:'Api working' });
-      })
+      .get(bookController.getBooks)
+      .post(bookController.addBook)
 
 
 export default router;

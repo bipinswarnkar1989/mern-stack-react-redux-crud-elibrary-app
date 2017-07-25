@@ -20,15 +20,30 @@ var _morgan = require('morgan');
 
 var _morgan2 = _interopRequireDefault(_morgan);
 
+var _mongoose = require('mongoose');
+
+var _mongoose2 = _interopRequireDefault(_mongoose);
+
 var _bookServer = require('./routes/book.server.route');
 
 var _bookServer2 = _interopRequireDefault(_bookServer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+_mongoose2.default.Promise = global.Promise;
+_mongoose2.default.connect('mongodb://localhost/myapp', {
+  useMongoClient: true
+});
+
 _sourceMapSupport2.default.install();
 
 const app = (0, _express2.default)();
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.use(_express2.default.static('static'));
 

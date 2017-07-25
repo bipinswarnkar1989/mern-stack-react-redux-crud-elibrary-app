@@ -2,7 +2,7 @@
 import Axios from 'axios';
 
 //API URL
-const apiUrl = 'http://57c64baac1fc8711008f2a82.mockapi.io/book';
+const apiUrl = 'http://localhost:8080/api/book/';
 //Sync action
 export const fetchBooksSuccess = (books) => {
   return {
@@ -21,7 +21,7 @@ export const fetchBooks = () => {
                 .then(response => {
                   // dispatch another action
                   // to consume data
-                  dispatch(fetchBooksSuccess(response.data))
+                  dispatch(fetchBooksSuccess(response.data.books))
                 })
                 .then(error => {
                   throw(error);
@@ -45,7 +45,7 @@ export const createBook = (book) => {
                 .then(response => {
                   // dispatch a synchronus action
                   // to handle data
-                  dispatch(createBookSuccess(response.data))
+                  dispatch(createBookSuccess(response.data.book))
                 })
                 .then(error => {
                   console.log(error);
@@ -69,7 +69,7 @@ export const fetchBookById = (bookId) => {
     return Axios.get(apiUrl + '/'+ bookId)
                 .then(response => {
                   //Handle data with sync action
-                  dispatch(fetchBookByIdSuccess(response.data))
+                  dispatch(fetchBookByIdSuccess(response.data.book))
                 })
                 .catch(error => {
                   throw(error);
