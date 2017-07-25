@@ -45,7 +45,7 @@ render(){
             <li><stron>Price: </stron> ${this.props.book.price}</li>
             <li><stron>Year: </stron> {this.props.book.year}</li>
             <br/>
-            <button className="btn btn-primary" onClick={this.addToCart}>Buy</button>
+            <button className="btn btn-primary" onClick={this.addToFavourite}>AddToFavourite</button>
           </ul>
         </div>
       </div>

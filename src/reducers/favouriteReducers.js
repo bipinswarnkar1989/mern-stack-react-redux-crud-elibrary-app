@@ -1,10 +1,10 @@
 // ./src/reducers/cartReducers.js
-export const cartReducers = (currentState = [], action) =>{
+export const favouriteReducers = (currentState = [], action) =>{
   switch (action.type) {
-    case 'ADD_TO_CART_SUCCESS':
+    case 'ADD_TO_FAVOURITE_SUCCESS':
         return action.item;
 
-    case 'FETCH_CART_SUCCESS':
+    case 'FETCH_FAVOURITE_SUCCESS':
           return action.items;
 
       break;

@@ -78,21 +78,21 @@ export const fetchBookById = (bookId) => {
 };
 
 //Sync action
-export const addToCartSuccess = (item) => {
+export const addToFavouriteSuccess = (item) => {
   return {
-    type: 'ADD_TO_CART_SUCCESS',
+    type: 'ADD_TO_FAVOURITE_SUCCESS',
     item
   }
 }
 
 //Async action
-export const addToCart = (item) => {
+export const addToFavourite = (item) => {
   //Return action
   return (dispatch) => {
-    return Axios.post('http://57c64baac1fc8711008f2a82.mockapi.io/Cart', item)
+    return Axios.post(apiUrl + '/Favourite', item)
                 .then(response => {
                   //Handle date with sync action
-                  dispatch(addToCartSuccess(response.data))
+                  dispatch(addToFavouriteSuccess(response.data))
                 })
                 .catch(error => {
                   throw(error);
@@ -101,19 +101,19 @@ export const addToCart = (item) => {
 };
 
 //Sync action
-export const fetchCartSuccess = (items) => {
+export const fetchFavouriteSuccess = (items) => {
   return {
-    type: 'FETCH_CART_SUCCESS',
+    type: 'FETCH_FAVOURITE_SUCCESS',
     items
   }
 }
 
 //Async action
-export const fetchCart = () => {
+export const fetchFavourite = () => {
   return (dispatch) => {
     return Axios.get('http://57c64baac1fc8711008f2a82.mockapi.io/Cart')
                 .then(response => {
-                  dispatch(fetchCartSuccess(response.data))
+                  dispatch(fetchFavouriteSuccess(response.data))
                 })
                 .catch(error => {
                   throw(error);

@@ -6,7 +6,7 @@ import About from './components/common/AboutPage';
 import BookPage from './components/book/BookPage';
 import BookDetailsPage from './components/book/BookDetailsPage'
 import App from './App';
-import CartPage from './components/cart/CartPage'
+import FavouritePage from './components/favourite/FavouritePage'
 
 export default (
   <Route path="/" component={App}>
@@ -14,6 +14,6 @@ export default (
     <Route path="/about" component={About}></Route>
     <Route path="/books" component={BookPage}></Route>
     <Route path="/books/:id" component={BookDetailsPage}></Route>
-    <Route path="/cart" component={CartPage}></Route>
+    <Route path="/favourites" component={FavouritePage}></Route>
   </Route>
 );

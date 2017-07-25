@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as bookActions from '../../actions/bookActions';
 
-class CartPage extends React.Component{
+class FavouritePage extends React.Component{
   constructor(props){
     super(props);
   }
   componentDidMount(){
-    this.props.mappedFetchCart();
+    this.props.mappedFetchFavourite();
   }
   render(){
     return(
@@ -37,14 +37,14 @@ class CartPage extends React.Component{
 
 const mapStateToProps = (state,ownProps) => {
   return {
-    mappedItems: state.cart
+    mappedItems: state.favourite
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    mappedFetchCart: () => dispatch(bookActions.fetchCart())
+    mappedFetchFavourite: () => dispatch(bookActions.fetchFavourite())
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(CartPage);
+export default connect(mapStateToProps,mapDispatchToProps)(FavouritePage);
