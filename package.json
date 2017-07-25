@@ -1,0 +1,36 @@
+{
+  "name": "react-redux-bookstore",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.16.2",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "mongoose": "^4.11.4",
+    "morgan": "^1.8.2",
+    "prop-types": "^15.5.10",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.5",
+    "react-router": "2.6.1",
+    "react-router-redux": "4.0.5",
+    "react-scripts": "1.0.10",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
+    "source-map-support": "^0.4.15"
+  },
+  "scripts": {
+    "start": "react-scripts start ",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "server": "nodemon -w dist dist/server.js",
+    "watch-server": "babel server --presets es2015-node6 --out-dir dist --source-maps --watch",
+    "dev-server": "npm run watch-server & npm run server"
+  },
+  "devDependencies": {
+    "babel-preset-es2015-node6": "^0.4.0",
+    "bootstrap": "^3.3.7",
+    "nodemon": "^1.11.0"
+  }
+}
