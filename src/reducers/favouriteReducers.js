@@ -2,7 +2,11 @@
 export default (currentState = [], action) =>{
   switch (action.type) {
     case 'ADD_TO_FAVOURITE_SUCCESS':
-        return action.item;
+    const nextState = [
+      ...currentState,
+      Object.assign({}, action.item)
+    ];
+         return nextState;
 
     case 'FETCH_FAVOURITE_SUCCESS':
           return action.items;

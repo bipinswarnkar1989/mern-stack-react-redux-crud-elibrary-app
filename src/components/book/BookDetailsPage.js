@@ -7,7 +7,7 @@ import * as bookActions from '../../actions/bookActions';
 class BookDetailsPage extends React.Component{
   constructor(props, context){
     super(props, context);
-  //  this.addToFavourite = this.addToFavourite.bind(this);
+    this.addToFavourite = this.addToFavourite.bind(this);
   }
 
   componentDidMount(){
@@ -16,9 +16,7 @@ class BookDetailsPage extends React.Component{
 
   addToFavourite(book){
      const item = {
-       id:book._id,
-       title:book.title,
-       price:book.price
+       id:this.props.mappedbook._id
      }
      this.props.mappedaddToFavourite(item);
   }
@@ -27,7 +25,7 @@ class BookDetailsPage extends React.Component{
     return(
       <div>
      <h1>Book Details Page</h1>
-     <BookDetails book={this.props.mappedbook}/>
+     <BookDetails book={this.props.mappedbook} addToFavourite={this.addToFavourite}/>
       </div>
     );
   };

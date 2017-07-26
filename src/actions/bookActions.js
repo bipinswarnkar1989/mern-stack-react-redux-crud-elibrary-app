@@ -92,7 +92,7 @@ export const addToFavourite = (item) => {
     return Axios.post(apiUrl + 'favourite', item)
                 .then(response => {
                   //Handle date with sync action
-                  dispatch(addToFavouriteSuccess(response.data.favourite))
+                  dispatch(addToFavouriteSuccess(response.data.f))
                 })
                 .catch(error => {
                   throw(error);

@@ -5,7 +5,7 @@ export const addFavourite = (req,res) => {
         console.log(req.body);
         //Create a new instance of Book model
         const newFavourite = new Favourite();
-        newFavourite.book = req.body._id;
+        newFavourite.book = req.body.id;
         newFavourite.save((err,favourite) => {
           if(err){
           return res.json({'message':'Some Error'});
