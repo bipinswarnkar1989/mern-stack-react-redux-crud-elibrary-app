@@ -22,9 +22,9 @@ class FavouritePage extends React.Component{
                   {this.props.mappedItems.map((item,index) => {
                     return (
                       <tr key={index}>
-                        <td>{item.id}</td>
-                        <td>{item.title}</td>
-                        <td>{item.price}</td>
+                        <td>{item._id}</td>
+                        <td>{item.book.title}</td>
+                        <td>{item.book.price}</td>
                       </tr>
                     );
                   })}

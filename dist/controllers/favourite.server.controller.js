@@ -18,18 +18,25 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const addFavourite = exports.addFavourite = (req, res) => {
   console.log(req.body);
   //Create a new instance of Book model
-  const newFavourite = new _favouriteServer2.default(req.body);
+  const newFavourite = new _favouriteServer2.default();
+  newFavourite.book = req.body._id;
   newFavourite.save((err, favourite) => {
     if (err) {
       return res.json({ 'message': 'Some Error' });
     }
 
-    return res.json({ 'message': 'Favourite added successfully', favourite });
+    _favouriteServer2.default.findOne({ '_id': favourite._id }).populate('book').exec((err, f) => {
+      if (err) {
+        return res.json({ 'message': 'Some Error' });
+      }
+
+      return res.json({ 'message': 'Favourite fetched successfully', f });
+    });
   });
 };
 //import models
 const getFavourites = exports.getFavourites = (req, res, next) => {
-  Book.find().exec((err, favourites) => {
+  _favouriteServer2.default.find().populate('book').exec((err, favourites) => {
     if (err) {
       return res.json({ 'message': 'Some Error' });
     }

@@ -2,7 +2,7 @@
 import Axios from 'axios';
 
 //API URL
-const apiUrl = 'http://localhost:8080/api/book/';
+const apiUrl = 'http://localhost:8080/api/';
 //Sync action
 export const fetchBooksSuccess = (books) => {
   return {
@@ -17,7 +17,7 @@ export const fetchBooks = () => {
   // that dispatches an action at later time
   return (dispatch) => {
     // Returns a promise
-    return Axios.get(apiUrl)
+    return Axios.get(apiUrl + 'book')
                 .then(response => {
                   // dispatch another action
                   // to consume data
@@ -41,7 +41,7 @@ export const createBookSuccess = (book) => {
 export const createBook = (book) => {
   //Return action
   return (dispatch) => {
-    return Axios.post(apiUrl, book)
+    return Axios.post(apiUrl + 'book', book)
                 .then(response => {
                   // dispatch a synchronus action
                   // to handle data
@@ -66,7 +66,7 @@ export const fetchBookByIdSuccess = (book) => {
 export const fetchBookById = (bookId) => {
   //Return action
   return (dispatch) => {
-    return Axios.get(apiUrl + bookId)
+    return Axios.get(apiUrl + 'book/' + bookId)
                 .then(response => {
                   //Handle data with sync action
                   dispatch(fetchBookByIdSuccess(response.data.book[0]))
@@ -89,10 +89,10 @@ export const addToFavouriteSuccess = (item) => {
 export const addToFavourite = (item) => {
   //Return action
   return (dispatch) => {
-    return Axios.post(apiUrl, item)
+    return Axios.post(apiUrl + 'favourite', item)
                 .then(response => {
                   //Handle date with sync action
-                  dispatch(addToFavouriteSuccess(response.data))
+                  dispatch(addToFavouriteSuccess(response.data.favourite))
                 })
                 .catch(error => {
                   throw(error);
@@ -111,9 +111,9 @@ export const fetchFavouriteSuccess = (items) => {
 //Async action
 export const fetchFavourite = () => {
   return (dispatch) => {
-    return Axios.get('http://57c64baac1fc8711008f2a82.mockapi.io/Cart')
+    return Axios.get(apiUrl + 'favourite')
                 .then(response => {
-                  dispatch(fetchFavouriteSuccess(response.data))
+                  dispatch(fetchFavouriteSuccess(response.data.favourites))
                 })
                 .catch(error => {
                   throw(error);

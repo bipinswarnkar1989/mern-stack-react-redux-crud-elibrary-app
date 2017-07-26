@@ -42,7 +42,7 @@ render(){
           <ul>
             <li><stron>Author: </stron> {this.props.book.author}</li>
             <li><stron>Price: </stron> ${this.props.book.price}</li>
-            <li><stron>Year: </stron> </li>
+            <li><stron>Year: </stron> {this.props.book.year} </li>
             <br/>
             <button className="btn btn-primary" onClick={this.props.addToFavourite}>AddToFavourite</button>
           </ul>
