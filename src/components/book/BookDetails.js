@@ -1,6 +1,5 @@
 // ./src/components/book/BookDetails.js
 import React from 'react';
-import PropTypes from 'prop-types';
 
 // const BookDetails = ({book, addToCart}) => {
 //   return (
@@ -34,7 +33,7 @@ render(){
   return (
     <div className="media">
         <div className="media-left">
-          <a href="#">
+          <a href="/#">
             <img className="media-object" src="http://placehold.it/200x280" alt="Placehold" />
           </a>
         </div>
@@ -43,9 +42,9 @@ render(){
           <ul>
             <li><stron>Author: </stron> {this.props.book.author}</li>
             <li><stron>Price: </stron> ${this.props.book.price}</li>
-            <li><stron>Year: </stron> {this.props.book.year}</li>
+            <li><stron>Year: </stron> </li>
             <br/>
-            <button className="btn btn-primary" onClick={this.addToFavourite}>AddToFavourite</button>
+            <button className="btn btn-primary" onClick={this.props.addToFavourite}>AddToFavourite</button>
           </ul>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router'
 
@@ -32,7 +31,7 @@ class BookPage extends React.Component {
           <tbody>
           {this.props.books.map((b,i) => <tr key={i}>
           <td>{b.title}</td>
-           <td><Link to={`/books/${b._id}`}>View</Link> </td>
+           <td><Link to={`/book/${b._id}`}>View</Link> </td>
            </tr> )}
           </tbody>
           </table>

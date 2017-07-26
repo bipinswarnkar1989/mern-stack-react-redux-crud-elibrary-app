@@ -7,7 +7,10 @@ const router = express.Router();
 
 router.route('/')
       .get(bookController.getBooks)
-      .post(bookController.addBook)
+      .post(bookController.addBook);
+
+router.route('/:id')
+      .get(bookController.getBookById);
 
 
 export default router;

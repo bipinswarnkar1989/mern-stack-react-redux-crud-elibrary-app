@@ -24,3 +24,13 @@ export const addBook = (req,res) => {
            return res.json({'message':'Books fetched successfully',books});
          })
 }
+
+export const getBookById = (req,res) => {
+  Book.find({_id:req.params.id}).exec((err,book) => {
+    if(err){
+    return res.json({'message':'Some Error'});
+    }
+
+    return res.json({'message':'Book fetched by id successfully',book});
+  })
+}

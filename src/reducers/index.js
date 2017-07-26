@@ -1,12 +1,12 @@
 // ./src/reducers/index.js
 import { combineReducers } from 'redux';
 import { booksReducer, bookReducer } from './bookReducers';
-import { favouriteReducers } from './favouriteReducers';
+import favourite from './favouriteReducers';
 
 export default combineReducers({
   books: booksReducer,
   book: bookReducer,
-  favourites: favouriteReducers,
+  favourite
   // More reducers if there are
   // can go here
 });

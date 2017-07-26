@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import BookDetails from './BookDetails';
 
 import * as bookActions from '../../actions/bookActions';
@@ -9,7 +7,7 @@ import * as bookActions from '../../actions/bookActions';
 class BookDetailsPage extends React.Component{
   constructor(props, context){
     super(props, context);
-    this.addToFavourite = this.addToFavourite.bind(this);
+  //  this.addToFavourite = this.addToFavourite.bind(this);
   }
 
   componentDidMount(){
@@ -18,7 +16,7 @@ class BookDetailsPage extends React.Component{
 
   addToFavourite(book){
      const item = {
-       id:book.id,
+       id:book._id,
        title:book.title,
        price:book.price
      }
@@ -29,7 +27,7 @@ class BookDetailsPage extends React.Component{
     return(
       <div>
      <h1>Book Details Page</h1>
-     <BookDetails book={this.props.book} addToFavourite={this.addToFavourite}/>
+     <BookDetails book={this.props.mappedbook}/>
       </div>
     );
   };
@@ -37,7 +35,7 @@ class BookDetailsPage extends React.Component{
 
 const mapStateToProps = (state,ownProps) => {
   return {
-     book: state.book
+     mappedbook: state.book
   }
 }
  const mapDispatchToProps = (dispatch) => {
@@ -50,4 +48,4 @@ const mapStateToProps = (state,ownProps) => {
    }
  }
 
- export default connect(mapStateToProps,mapDispatchToProps)(BookDetailsPage);
+ export default connect(mapStateToProps, mapDispatchToProps)(BookDetailsPage);

@@ -28,6 +28,10 @@ var _bookServer = require('./routes/book.server.route');
 
 var _bookServer2 = _interopRequireDefault(_bookServer);
 
+var _favouriteServer = require('./routes/favourite.server.route');
+
+var _favouriteServer2 = _interopRequireDefault(_favouriteServer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _mongoose2.default.Promise = global.Promise;
@@ -53,6 +57,7 @@ app.use(_bodyParser2.default.json());
 app.use((0, _morgan2.default)('dev'));
 
 app.use('/api/book', _bookServer2.default);
+app.use('/api/favourite', _favouriteServer2.default);
 
 //catch 404
 app.use(function (req, res) {

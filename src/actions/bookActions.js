@@ -66,10 +66,10 @@ export const fetchBookByIdSuccess = (book) => {
 export const fetchBookById = (bookId) => {
   //Return action
   return (dispatch) => {
-    return Axios.get(apiUrl + '/'+ bookId)
+    return Axios.get(apiUrl + bookId)
                 .then(response => {
                   //Handle data with sync action
-                  dispatch(fetchBookByIdSuccess(response.data.book))
+                  dispatch(fetchBookByIdSuccess(response.data.book[0]))
                 })
                 .catch(error => {
                   throw(error);
@@ -89,7 +89,7 @@ export const addToFavouriteSuccess = (item) => {
 export const addToFavourite = (item) => {
   //Return action
   return (dispatch) => {
-    return Axios.post(apiUrl + '/Favourite', item)
+    return Axios.post(apiUrl, item)
                 .then(response => {
                   //Handle date with sync action
                   dispatch(addToFavouriteSuccess(response.data))

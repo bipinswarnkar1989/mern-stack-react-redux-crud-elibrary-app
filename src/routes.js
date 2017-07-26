@@ -13,7 +13,7 @@ export default (
     <IndexRoute component={Home}></IndexRoute>
     <Route path="/about" component={About}></Route>
     <Route path="/books" component={BookPage}></Route>
-    <Route path="/books/:id" component={BookDetailsPage}></Route>
+    <Route path="/book/:id" component={BookDetailsPage}></Route>
     <Route path="/favourites" component={FavouritePage}></Route>
   </Route>
 );

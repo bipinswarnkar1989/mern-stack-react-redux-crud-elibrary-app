@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getBooks = exports.addBook = undefined;
+exports.getBookById = exports.getBooks = exports.addBook = undefined;
 
 var _mongoose = require('mongoose');
 
@@ -35,6 +35,16 @@ const getBooks = exports.getBooks = (req, res, next) => {
     }
 
     return res.json({ 'message': 'Books fetched successfully', books });
+  });
+};
+
+const getBookById = exports.getBookById = (req, res) => {
+  _bookServer2.default.find({ _id: req.params.id }).exec((err, book) => {
+    if (err) {
+      return res.json({ 'message': 'Some Error' });
+    }
+
+    return res.json({ 'message': 'Book fetched by id successfully', book });
   });
 };
 //# sourceMappingURL=book.server.controller.js.map

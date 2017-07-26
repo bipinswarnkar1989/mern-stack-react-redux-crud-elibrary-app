@@ -6,6 +6,7 @@ import logger from 'morgan';
 import mongoose from 'mongoose';
 
 import bookRoutes from './routes/book.server.route';
+import favouriteRoutes from './routes/favourite.server.route';
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/myapp', {
@@ -30,6 +31,7 @@ app.use(bodyParser.json());
 app.use(logger('dev'));
 
 app.use('/api/book',bookRoutes);
+app.use('/api/favourite',favouriteRoutes);
 
 
 

@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as bookActions from '../../actions/bookActions';
 
 class FavouritePage extends React.Component{
-  constructor(props){
-    super(props);
+  constructor(props,context){
+    super(props,context);
   }
   componentDidMount(){
     this.props.mappedFetchFavourite();
