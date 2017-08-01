@@ -3,11 +3,20 @@ import Axios from 'axios';
 
 //API URL
 const apiUrl = 'http://localhost:8080/api/';
+
+export const fetchBooksRequest = () => {
+  return {
+    type:'FETCH_BOOK_REQUEST'
+  }
+}
+
+
 //Sync action
 export const fetchBooksSuccess = (books) => {
   return {
     type: 'FETCH_BOOK_SUCCESS',
-    books
+    books: books,
+    receivedAt: Date.now
   }
 };
 
@@ -16,6 +25,8 @@ export const fetchBooks = () => {
   // Returns a dispatcher function
   // that dispatches an action at later time
   return (dispatch) => {
+
+    dispatch(fetchBooksRequest());
     // Returns a promise
     return Axios.get(apiUrl + 'book')
                 .then(response => {
@@ -38,9 +49,16 @@ export const createBookSuccess = (book) => {
   }
 }
 
+export const createBookRequest = () => {
+  return {
+    type:'CREATE_BOOK_REQUEST'
+  }
+}
+
 export const createBook = (book) => {
   //Return action
   return (dispatch) => {
+       dispatch(createBookRequest());
     return Axios.post(apiUrl + 'book', book)
                 .then(response => {
                   // dispatch a synchronus action

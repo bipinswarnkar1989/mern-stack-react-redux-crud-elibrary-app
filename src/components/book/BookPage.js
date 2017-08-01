@@ -1,14 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router'
+import PropTypes from 'prop-types'
 
 import * as bookActions from '../../actions/bookActions';
 import BookForm from './BookForm';
 
 class BookPage extends React.Component {
+
   constructor(props) {
     //Pass props back to parent
     super(props);
+  }
+
+  componentWillMount() {
+    this.props.fetchBooks();
   }
 
   submitBook(input){
@@ -16,20 +22,24 @@ class BookPage extends React.Component {
   }
 
   render(){
-    //Title input tracker
-    //let titleInput;
+    const { isFetching, books } = this.props.booksList;
+    const isEmpty = books.length === 0;
+    if (isEmpty && isFetching ) {
+      return <h2><i>Loading...</i></h2>
+    }
 
     //return jsx
     return(
       <div className="row">
           <div className="col-md-6">
           <h3>Books</h3>
+
           <table className="table">
           <thead>
            <th><td>Title</td><td></td></th>
           </thead>
           <tbody>
-          {this.props.books.map((b,i) => <tr key={i}>
+          {books.map((b,i) => <tr key={i}>
           <td>{b.title}</td>
            <td><Link to={`/book/${b._id}`}>View</Link> </td>
            </tr> )}
@@ -50,7 +60,7 @@ class BookPage extends React.Component {
 const mapStateToProps = (state,ownProps) => {
   return {
     // You can now say this.props.books
-    books: state.books
+    booksList: state.books.booksList
   }
 };
 
@@ -58,7 +68,8 @@ const mapStateToProps = (state,ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     // You can now say this.props.createBook
-    createBook: book => dispatch(bookActions.createBook(book))
+    createBook: book => dispatch(bookActions.createBook(book)),
+    fetchBooks: () => dispatch(bookActions.fetchBooks())
   }
 }
 

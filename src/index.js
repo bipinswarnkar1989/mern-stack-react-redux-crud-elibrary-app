@@ -12,7 +12,7 @@ import configureStore from './store/configureStore';
 import * as bookActions from './actions/bookActions';
 
 const store = configureStore();
-store.dispatch(bookActions.fetchBooks());
+//store.dispatch(bookActions.fetchBooks());
 
 ReactDOM.render(<Provider store={store}>
   <Router routes={routes} history={browserHistory}/>
