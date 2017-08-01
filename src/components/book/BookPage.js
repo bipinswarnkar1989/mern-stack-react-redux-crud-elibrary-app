@@ -23,7 +23,15 @@ class BookPage extends React.Component {
 
   render(){
     const { isFetching, books } = this.props.booksList;
+    const { book, isAdding } = this.props.newBook;
+    let { bookAddMessage }= this.props;
     const isEmpty = books.length === 0;
+    if (!book && isAdding) {
+      bookAddMessage = 'New Book Adding..';
+    }
+    if (book && !isAdding) {
+      bookAddMessage = `New Book ${book.title} Added Successfully`;
+    }
     if (isEmpty && isFetching ) {
       return <h2><i>Loading...</i></h2>
     }
@@ -47,7 +55,7 @@ class BookPage extends React.Component {
           </table>
           </div>
           <div className="col-md-6">
-          <h3>Books</h3>
+        <h3 onClick={this.hidebookAddMessage} className="bookAddMessage">{bookAddMessage}</h3>
           { /* Import and inject Book form */}
           <BookForm submitBook={this.submitBook.bind(this)}/>
           </div>
@@ -60,7 +68,8 @@ class BookPage extends React.Component {
 const mapStateToProps = (state,ownProps) => {
   return {
     // You can now say this.props.books
-    booksList: state.books.booksList
+    booksList: state.books.booksList,
+    newBook: state.books.newBook
   }
 };
 

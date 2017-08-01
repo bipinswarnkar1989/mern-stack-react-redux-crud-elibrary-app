@@ -1,21 +1,21 @@
 // ./src/reducers/bookReducers.js
 
 const INITIAL_STATE = { booksList: {books: [], error:null, isFetching: false},
-							newBook:{book:null, error: null, isFetching: false},
+							newBook:{book:null, error: null, isAdding: false},
 						};
 
 // For handling array of books
 export const booksReducer =  (currentState = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'CREATE_BOOK_REQUEST':
-          return { ...currentState, booksList: {books:[...currentState.booksList.books], error:null,isFetching: true},newBook:{book:null, error:null, isFetching:true}};
+          return { ...currentState, booksList: {books:[...currentState.booksList.books], error:null,isFetching: true},newBook:{book:null, error:null, isAdding:true}};
 
     case 'CREATE_BOOK_SUCCESS':
           //  const nextState = [
           //    ...currentState,
           //    Object.assign({}, action.book)
           //  ];return { ...state, activePost:{...state.activePost, loading: true}};
-          const nextState = { ...currentState, booksList:{books:[...currentState.booksList.books, action.book], isFetching:false},newBook:{book:action.book, error:null, isFetching:false}}
+          const nextState = { ...currentState, booksList:{books:[...currentState.booksList.books, action.book], isFetching:false},newBook:{book:action.book, error:null, isAdding:false}}
       return nextState;
 
   case 'FETCH_BOOK_REQUEST':
