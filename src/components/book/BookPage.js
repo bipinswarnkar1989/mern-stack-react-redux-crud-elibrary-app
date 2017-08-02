@@ -1,17 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router'
-import PropTypes from 'prop-types'
+//import PropTypes from 'prop-types'
 
 import * as bookActions from '../../actions/bookActions';
 import BookForm from './BookForm';
 
 class BookPage extends React.Component {
-
-  constructor(props) {
-    //Pass props back to parent
-    super(props);
-  }
 
   componentWillMount() {
     this.props.fetchBooks();

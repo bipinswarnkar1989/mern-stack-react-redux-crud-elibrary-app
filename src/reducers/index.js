@@ -6,7 +6,7 @@ import favourite from './favouriteReducers';
 export default combineReducers({
   books: booksReducer,
   book: bookReducer,
-  favourite
+  favourite: favourite
   // More reducers if there are
   // can go here
 });

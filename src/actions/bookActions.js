@@ -95,6 +95,12 @@ export const fetchBookById = (bookId) => {
   }
 };
 
+export const addToFavouriteRequest = () => {
+  return{
+    type: 'ADD_TO_FAVOURITE_REQUEST'
+  }
+}
+
 //Sync action
 export const addToFavouriteSuccess = (item) => {
   return {
@@ -107,6 +113,7 @@ export const addToFavouriteSuccess = (item) => {
 export const addToFavourite = (item) => {
   //Return action
   return (dispatch) => {
+        dispatch(addToFavouriteRequest());
     return Axios.post(apiUrl + 'favourite', item)
                 .then(response => {
                   //Handle date with sync action
@@ -117,6 +124,12 @@ export const addToFavourite = (item) => {
                 })
   }
 };
+
+export const fetchFavouriteRequest = () => {
+  return{
+    type: 'FETCH_FAVOURITE_REQUEST'
+  }
+}
 
 //Sync action
 export const fetchFavouriteSuccess = (items) => {
@@ -129,6 +142,7 @@ export const fetchFavouriteSuccess = (items) => {
 //Async action
 export const fetchFavourite = () => {
   return (dispatch) => {
+          dispatch(fetchFavouriteRequest());
     return Axios.get(apiUrl + 'favourite')
                 .then(response => {
                   dispatch(fetchFavouriteSuccess(response.data.favourites))

@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import * as bookActions from '../../actions/bookActions';
 
 class FavouritePage extends React.Component{
-  constructor(props,context){
-    super(props,context);
-  }
+  
   componentDidMount(){
     this.props.mappedFetchFavourite();
   }
@@ -36,7 +34,7 @@ class FavouritePage extends React.Component{
 
 const mapStateToProps = (state,ownProps) => {
   return {
-    mappedItems: state.favourite
+    mappedItems: state.favourite.favourites
   }
 };
 

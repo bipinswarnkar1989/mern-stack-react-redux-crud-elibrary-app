@@ -25,7 +25,7 @@ class BookDetailsPage extends React.Component{
     return(
       <div>
      <h1>Book Details Page</h1>
-     <BookDetails book={this.props.mappedbook} addToFavourite={this.addToFavourite}/>
+     <BookDetails book={this.props.mappedbook} addToFavourite={this.addToFavourite} favouritesData={this.props.mappedfavouriteItems}/>
       </div>
     );
   };
@@ -33,7 +33,8 @@ class BookDetailsPage extends React.Component{
 
 const mapStateToProps = (state,ownProps) => {
   return {
-     mappedbook: state.book
+     mappedbook: state.book,
+     mappedfavouriteItems: state.favourite
   }
 }
  const mapDispatchToProps = (dispatch) => {
