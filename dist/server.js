@@ -52,7 +52,7 @@ app.use(function (req, res, next) {
 app.use(_express2.default.static('static'));
 
 // parse application/x-www-form-urlencoded
-app.use(_bodyParser2.default.urlencoded({ extended: false }));
+app.use(_bodyParser2.default.urlencoded({ extended: true }));
 app.use(_bodyParser2.default.json());
 app.use((0, _morgan2.default)('dev'));
 

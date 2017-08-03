@@ -16,7 +16,8 @@ let Schema = _mongoose2.default.Schema({
         default: Date.now
     },
     title: String,
-    imageUrl: String,
+    filePath: String,
+    fileName: String,
     author: String,
     price: Number,
     year: Number

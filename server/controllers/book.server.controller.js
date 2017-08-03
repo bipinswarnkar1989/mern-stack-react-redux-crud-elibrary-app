@@ -1,17 +1,54 @@
 import mongoose from 'mongoose';
+import multer from 'multer';
 //import models
 import  Book from '../models/book.server.model';
-export const addBook = (req,res) => {
-        console.log(req.body);
-        //Create a new instance of Book model
-        const newBook = new Book(req.body);
-        newBook.save((err,book) => {
-          if(err){
-          return res.json({'message':'Some Error'});
-          }
 
-          return res.json({'message':'Book added successfully',book});
-        })
+//set multer storage
+let storage = multer.diskStorage({
+  destination: (req,file,cb) => {
+    cb(null, './uploads');
+  },
+  filename: (req,file,cb) => {
+    const date = Date.now();
+    const yourfilename = file.originalname.split('.')[file.originalname.split('.').length - 2].replace(/ /g, '_');
+    cb(null, file.fieldname + '-' + date + '_'+ yourfilename + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1]);
+  }
+});
+
+const Upload = multer({
+  storage: storage,
+  fileFilter: function(req, file, cb) {
+            if (file.mimetype === 'application/pdf') {
+                cb(null, true);
+            } else {
+                cb(new Error('Only pdf allowed'), false);
+            }
+        }
+}).single('file');
+
+
+export const addBook = (req,res) => {
+        Upload(req,res,(err) => {
+          if(err){
+            console.log('ERROR:'+err);
+            return res.json({'success':false,'message':'Failed. Only pdf allowed',err});;
+          }
+          else{
+            console.log(req.body);
+            //Create a new instance of Book model
+            const newBook = new Book(req.body);
+            newBook.filePath = req.file.path;
+            newBook.fileName = req.file.filename;
+            newBook.save((err,book) => {
+              if(err){
+              return res.json({'success':false,'message':'Some Error'});
+              }
+
+              return res.json({'success':true,'message':'Book added successfully',book});
+            })
+          }
+        });
+
 
 }
 

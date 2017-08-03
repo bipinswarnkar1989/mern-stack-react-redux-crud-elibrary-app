@@ -5,7 +5,8 @@ let Schema = mongoose.Schema({
             default:Date.now
         },
         title: String,
-        imageUrl: String,
+        filePath: String,
+        fileName: String,
         author: String,
         price: Number,
         year: Number

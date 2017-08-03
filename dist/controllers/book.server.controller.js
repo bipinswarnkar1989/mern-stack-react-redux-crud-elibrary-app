@@ -9,25 +9,63 @@ var _mongoose = require('mongoose');
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
+var _multer = require('multer');
+
+var _multer2 = _interopRequireDefault(_multer);
+
 var _bookServer = require('../models/book.server.model');
 
 var _bookServer2 = _interopRequireDefault(_bookServer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const addBook = exports.addBook = (req, res) => {
-  console.log(req.body);
-  //Create a new instance of Book model
-  const newBook = new _bookServer2.default(req.body);
-  newBook.save((err, book) => {
-    if (err) {
-      return res.json({ 'message': 'Some Error' });
-    }
+//set multer storage
+let storage = _multer2.default.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads');
+  },
+  filename: (req, file, cb) => {
+    const date = Date.now();
+    const yourfilename = file.originalname.split('.')[file.originalname.split('.').length - 2].replace(/ /g, '_');
+    cb(null, file.fieldname + '-' + date + '_' + yourfilename + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1]);
+  }
+});
+//import models
 
-    return res.json({ 'message': 'Book added successfully', book });
+
+const Upload = (0, _multer2.default)({
+  storage: storage,
+  fileFilter: function (req, file, cb) {
+    if (file.mimetype === 'application/pdf') {
+      cb(null, true);
+    } else {
+      cb(new Error('Only pdf allowed'), false);
+    }
+  }
+}).single('file');
+
+const addBook = exports.addBook = (req, res) => {
+  Upload(req, res, err => {
+    if (err) {
+      console.log('ERROR:' + err);
+      return res.json({ 'success': false, 'message': 'Failed. Only pdf allowed', err });;
+    } else {
+      console.log(req.body);
+      //Create a new instance of Book model
+      const newBook = new _bookServer2.default(req.body);
+      newBook.filePath = req.file.path;
+      newBook.fileName = req.file.filename;
+      newBook.save((err, book) => {
+        if (err) {
+          return res.json({ 'success': false, 'message': 'Some Error' });
+        }
+
+        return res.json({ 'success': true, 'message': 'Book added successfully', book });
+      });
+    }
   });
 };
-//import models
+
 const getBooks = exports.getBooks = (req, res, next) => {
   _bookServer2.default.find().exec((err, books) => {
     if (err) {

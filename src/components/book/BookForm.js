@@ -13,10 +13,11 @@ const BookForm = (props) => {
         price: priceInput.value,
         year: yearInput.value
       };
+
       props.submitBook(input);
       e.target.reset();
     }}
-    className="form form-horizontal"
+    className="form form-horizontal" id="myForm"
     >
 
     <div className="input-group">
@@ -29,6 +30,16 @@ const BookForm = (props) => {
               className="form-control" />
           </div>
         </div>
+        <br/>
+        <div className="input-group">
+        <label className="col-sm-2 control-label">PDF File: </label>
+        <div className="col-sm-10">
+          <input
+            type="file"
+            name="file"
+            className="form-control" id="file" accept=".pdf,.PDF" onChange={props.handleUploadFile}/>
+        </div>
+      </div>
         <br/>
         <div className="input-group">
           <label className="col-sm-2 control-label">Author: </label>

@@ -55,21 +55,34 @@ export const createBookRequest = () => {
   }
 }
 
+export const createBookFailed = (message) => {
+  return {
+    type:'CREATE_BOOK_REQUEST_FAILED',
+    message
+  }
+}
+
 export const createBook = (book) => {
   //Return action
   return (dispatch) => {
        dispatch(createBookRequest());
     return Axios.post(apiUrl + 'book', book)
                 .then(response => {
+                  if(response.data.success){
                   // dispatch a synchronus action
                   // to handle data
-                  dispatch(createBookSuccess(response.data.book))
+                  dispatch(createBookSuccess(response.data.book));
+                }
+                else{
+                  dispatch(createBookFailed(response.data.message));
+                }
                 })
                 .then(error => {
                   console.log(error);
                 })
   }
 };
+
 
 
 //Sync action

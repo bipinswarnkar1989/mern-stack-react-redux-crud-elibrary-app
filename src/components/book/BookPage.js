@@ -7,18 +7,33 @@ import * as bookActions from '../../actions/bookActions';
 import BookForm from './BookForm';
 
 class BookPage extends React.Component {
-
+   constructor(props){
+     super(props);
+   }
   componentWillMount() {
     this.props.fetchBooks();
   }
 
   submitBook(input){
-    this.props.createBook(input);
+    const fileName = document.getElementById('file').files[0].name;
+    const fileExt = fileName.split('.').pop();
+    if(fileExt === "pdf"){
+      const data = new FormData();
+      data.append('title',input.title);
+      data.append('author',input.author);
+      data.append('price',input.price);
+      data.append('year',input.year);
+      data.append('file',document.getElementById('file').files[0]);
+      this.props.createBook(data);
+    }else{
+    alert('Only pdf file is allowed');
   }
+  }
+
 
   render(){
     const { isFetching, books } = this.props.booksList;
-    const { book, isAdding } = this.props.newBook;
+    const { book, isAdding, error } = this.props.newBook;
     let { bookAddMessage }= this.props;
     const isEmpty = books.length === 0;
     if (!book && isAdding) {
@@ -26,6 +41,9 @@ class BookPage extends React.Component {
     }
     if (book && !isAdding) {
       bookAddMessage = `New Book ${book.title} Added Successfully`;
+    }
+    if(!book && !isAdding){
+      bookAddMessage = error;
     }
     if (isEmpty && isFetching ) {
       return <h2><i>Loading...</i></h2>
@@ -39,7 +57,7 @@ class BookPage extends React.Component {
 
           <table className="table">
           <thead>
-           <th><td>Title</td><td></td></th>
+           <tr><th>Title</th><th></th></tr>
           </thead>
           <tbody>
           {books.map((b,i) => <tr key={i}>
@@ -52,7 +70,7 @@ class BookPage extends React.Component {
           <div className="col-md-6">
         <h3 onClick={this.hidebookAddMessage} className="bookAddMessage">{bookAddMessage}</h3>
           { /* Import and inject Book form */}
-          <BookForm submitBook={this.submitBook.bind(this)}/>
+          <BookForm submitBook={this.submitBook.bind(this)} handleUploadFile={this.handleUploadFile}/>
           </div>
       </div>
     );
