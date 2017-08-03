@@ -21,8 +21,6 @@ export const booksReducer =  (currentState = INITIAL_STATE, action) => {
 	 case 'CREATE_BOOK_REQUEST_FAILED':
 	       return { ...currentState, booksList:{books:[...currentState.booksList.books], error:null, isFetching:false}, newBook:{book:null, error:action.message, isAdding:false}}
 
-		break;
-
   case 'FETCH_BOOK_REQUEST':
          return { ...currentState, booksList: {books:[], error: null, isFetching: true} };
 

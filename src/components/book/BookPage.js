@@ -7,9 +7,9 @@ import * as bookActions from '../../actions/bookActions';
 import BookForm from './BookForm';
 
 class BookPage extends React.Component {
-   constructor(props){
-     super(props);
-   }
+  //  constructor(props){
+  //    super(props);
+  //  }
   componentWillMount() {
     this.props.fetchBooks();
   }
