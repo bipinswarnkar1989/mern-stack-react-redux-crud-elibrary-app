@@ -122,6 +122,13 @@ export const addToFavouriteSuccess = (item) => {
   }
 }
 
+export const addToFavouriteFailed = (message) => {
+  return{
+    type: 'ADD_TO_FAVOURITE_FAILED',
+    message
+  }
+}
+
 //Async action
 export const addToFavourite = (item) => {
   //Return action
@@ -129,8 +136,13 @@ export const addToFavourite = (item) => {
         dispatch(addToFavouriteRequest());
     return Axios.post(apiUrl + 'favourite', item)
                 .then(response => {
+                  if(response.data.success){
                   //Handle date with sync action
                   dispatch(addToFavouriteSuccess(response.data.f))
+                }
+                else{
+                    dispatch(addToFavouriteFailed(response.data.message));
+                }
                 })
                 .catch(error => {
                   throw(error);

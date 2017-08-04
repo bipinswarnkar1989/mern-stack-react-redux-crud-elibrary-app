@@ -27,7 +27,7 @@ const BookForm = (props) => {
               type="text"
               name="title"
               ref={node => titleInput = node}
-              className="form-control" />
+              className="form-control"  />
           </div>
         </div>
         <br/>

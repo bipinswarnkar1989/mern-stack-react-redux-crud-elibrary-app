@@ -30,7 +30,7 @@ class BookDetails extends React.Component {
 
 
 render(){
-  const { isFetching, favourites, newFavourite } = this.props.favouritesData;
+  const { isFetching, favourites, newFavourite, error } = this.props.favouritesData;
   const  b  = this.props.book;
   return (
     <div className="media">
@@ -51,6 +51,9 @@ render(){
             }
             {!isFetching && newFavourite != null && newFavourite.book._id === b._id &&
               <h3>Book Successfully added to favourites</h3>
+            }
+            {!isFetching && newFavourite == null && error != null &&
+              <h3>{error}</h3>
             }
             <button className="btn btn-primary" onClick={this.props.addToFavourite}>AddToFavourite</button>
           </ul>

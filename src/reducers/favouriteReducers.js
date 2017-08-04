@@ -8,6 +8,11 @@ export default (currentState = INITIAL_STATE, action) => {
            ...currentState, favourites:[...currentState.favourites], isFetching:true, error:null, newFavourite:null
          }
 
+    case 'ADD_TO_FAVOURITE_FAILED':
+          return{
+            ...currentState, favourites:[...currentState.favourites], isFetching:false, error:action.message, newFavourite:null
+          }
+
     case 'ADD_TO_FAVOURITE_SUCCESS':
     const nextState = { ...currentState, favourites: [
       ...currentState.favourites,

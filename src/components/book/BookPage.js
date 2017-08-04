@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 
 import * as bookActions from '../../actions/bookActions';
 import BookForm from './BookForm';
+import * as appActions from '../../actions/appActions';
 
 class BookPage extends React.Component {
   //  constructor(props){
@@ -12,9 +13,15 @@ class BookPage extends React.Component {
   //  }
   componentWillMount() {
     this.props.fetchBooks();
+    this.props.mappedAppSate.showAddBook = false;
   }
 
   submitBook(input){
+    const form = document.getElementById('myForm');
+    if(form.file.value === '' || form.title.value === '' || form.author.value === '' || form.price.value === '' || form.year.value === ''){
+      this.props.createBookFailed('Fill all fields');
+      return;
+    }
     const fileName = document.getElementById('file').files[0].name;
     const fileExt = fileName.split('.').pop();
     if(fileExt === "pdf"){
@@ -45,6 +52,9 @@ class BookPage extends React.Component {
     if(!book && !isAdding){
       bookAddMessage = error;
     }
+    if(error){
+      bookAddMessage = error;
+    }
     if (isEmpty && isFetching ) {
       return <h2><i>Loading...</i></h2>
     }
@@ -67,11 +77,13 @@ class BookPage extends React.Component {
           </tbody>
           </table>
           </div>
+          {this.props.mappedAppSate.showAddBook &&
           <div className="col-md-6">
         <h3 onClick={this.hidebookAddMessage} className="bookAddMessage">{bookAddMessage}</h3>
-          { /* Import and inject Book form */}
+           {/* Import and inject Book form */}
           <BookForm submitBook={this.submitBook.bind(this)} handleUploadFile={this.handleUploadFile}/>
           </div>
+        }
       </div>
     );
   }
@@ -82,7 +94,8 @@ const mapStateToProps = (state,ownProps) => {
   return {
     // You can now say this.props.books
     booksList: state.books.booksList,
-    newBook: state.books.newBook
+    newBook: state.books.newBook,
+    mappedAppSate: state.appState
   }
 };
 
@@ -91,7 +104,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     // You can now say this.props.createBook
     createBook: book => dispatch(bookActions.createBook(book)),
-    fetchBooks: () => dispatch(bookActions.fetchBooks())
+    fetchBooks: () => dispatch(bookActions.fetchBooks()),
+    createBookFailed: message => dispatch(bookActions.createBookFailed(message))
   }
 }
 
