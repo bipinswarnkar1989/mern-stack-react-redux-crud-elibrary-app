@@ -27,7 +27,8 @@ export const booksReducer =  (currentState = INITIAL_STATE, action) => {
    case 'FETCH_BOOK_SUCCESS':
           //return action.books;
            return { ...currentState, booksList: {books: action.books, error:null, isFetching: false} };
-
+   case 'HIDE_BOOK_MESSAGE':
+	         return { ...currentState, booksList: {books:[...currentState.booksList.books], error:null,isFetching: false},newBook:{book:null, error:null, isAdding:false}};
 
     default:
         return currentState;

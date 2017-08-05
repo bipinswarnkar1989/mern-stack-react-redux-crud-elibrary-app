@@ -4,6 +4,12 @@ import Axios from 'axios';
 //API URL
 const apiUrl = 'http://localhost:8080/api/';
 
+export const hideBookMessage = () => {
+  return {
+    type:'HIDE_BOOK_MESSAGE'
+  }
+}
+
 export const fetchBooksRequest = () => {
   return {
     type:'FETCH_BOOK_REQUEST'

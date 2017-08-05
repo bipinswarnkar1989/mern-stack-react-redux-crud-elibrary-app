@@ -1,0 +1,9 @@
+.addBookBox{
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+  border:1px solid green;
+  padding: 10px 30px 10px 30px;
+}
+.addBookHeading{color: #EE6E73;text-decoration: underline;}
+.addBookBox .form-group{padding: 2px;}

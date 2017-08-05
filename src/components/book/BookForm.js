@@ -1,84 +1,64 @@
 // ./src/components/book/BookForm.js
 import React from 'react';
+import { FormGroup,ControlLabel,FormControl,Button } from 'react-bootstrap';
 
 const BookForm = (props) => {
-  let titleInput, authorInput, priceInput, yearInput = null;
   return (
-    <form onSubmit={e => {
-      e.preventDefault();
-      //Assemble data into object
-      var input = {
-        title: titleInput.value,
-        author: authorInput.value,
-        price: priceInput.value,
-        year: yearInput.value
-      };
-
-      props.submitBook(input);
-      e.target.reset();
-    }}
-    className="form form-horizontal" id="myForm"
+    <form
+    className="form form-horizontal" id="myForm" onSubmit={props.submitBook}
     >
 
-    <div className="input-group">
-          <label className="col-sm-2 control-label">Title: </label>
-          <div className="col-sm-10">
-            <input
-              type="text"
+    <div className="row">
+    <div className="col-md-12">
+    <FormGroup>
+          <ControlLabel>Title: </ControlLabel>
+            <FormControl
+              type="text" placeholder="Enter title"
               name="title"
-              ref={node => titleInput = node}
-              className="form-control"  />
-          </div>
+               />
+        </FormGroup>
         </div>
-        <br/>
-        <div className="input-group">
-        <label className="col-sm-2 control-label">PDF File: </label>
-        <div className="col-sm-10">
-          <input
+      <div className="col-md-6">
+        <FormGroup >
+        <ControlLabel>PDF File: </ControlLabel>
+        <input className="form-control"
             type="file"
             name="file"
-            className="form-control" id="file" accept=".pdf,.PDF" onChange={props.handleUploadFile}/>
-        </div>
-      </div>
-        <br/>
-        <div className="input-group">
-          <label className="col-sm-2 control-label">Author: </label>
-          <div className="col-sm-10">
-            <input
+           id="file" accept=".pdf,.PDF" onChange={props.handleUploadFile}/>
+      </FormGroup>
+    </div>
+    <div className="col-md-6">
+        <FormGroup>
+          <ControlLabel>Author: </ControlLabel>
+            <FormControl
               type="text"
               name="author"
-              ref={node => authorInput = node}
-              className="form-control" />
-          </div>
-        </div>
-        <br/>
-        <div className="input-group">
-          <label className="col-sm-2 control-label">Price: </label>
-          <div className="col-sm-10">
-            <input
+               placeholder="Enter author"/>
+        </FormGroup>
+     </div>
+     <div className="col-md-6">
+        <FormGroup>
+          <ControlLabel>Price: </ControlLabel>
+            <FormControl
               type="number"
               name="price"
-              ref={node => priceInput = node}
-              className="form-control" />
-          </div>
-        </div>
-        <br/>
-        <div className="input-group">
-          <label className="col-sm-2 control-label">Year: </label>
-          <div className="col-sm-10">
-            <input
+              placeholder="Enter price" />
+          </FormGroup>
+       </div>
+       <div className="col-md-6">
+        <FormGroup>
+          <ControlLabel>Publication Year: </ControlLabel>
+            <FormControl
               type="text"
               name="year"
-              ref={node => yearInput = node}
-              className="form-control" />
-          </div>
+              placeholder="Enter publication year" />
+          </FormGroup>
         </div>
-        <br/>
-        <div className="input-group">
-          <div className="col-sm-offset-2 col-sm-10">
-            <input type="submit" className="btn btn-default"/>
-          </div>
-        </div>
+    </div>
+
+        <FormGroup>
+            <Button type="submit" bsStyle="success" bsSize="large" block>Submit</Button>
+        </FormGroup>
     </form>
   );
 };
