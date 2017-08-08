@@ -35,5 +35,6 @@
     "babel-preset-es2015-node6": "^0.4.0",
     "bootstrap": "^3.3.7",
     "nodemon": "^1.11.0"
-  }
+  },
+  "proxy":"http://localhost:8080"
 }

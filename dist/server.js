@@ -49,7 +49,8 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(_express2.default.static('static'));
+app.use(_express2.default.static('uploads'));
+app.use(_express2.default.static(_path2.default.join(__dirname, 'static')));
 
 // parse application/x-www-form-urlencoded
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
@@ -59,8 +60,14 @@ app.use((0, _morgan2.default)('dev'));
 app.use('/api/book', _bookServer2.default);
 app.use('/api/favourite', _favouriteServer2.default);
 
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(_path2.default.join(__dirname + '/public/index.html'));
+});
+
 //catch 404
-app.use(function (req, res) {
+app.use((req, res) => {
   res.end('Page Not Found');
 });
 

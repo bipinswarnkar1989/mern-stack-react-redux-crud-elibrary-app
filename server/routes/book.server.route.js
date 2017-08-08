@@ -22,8 +22,10 @@ router.route('/')
       .get(bookController.getBooks)
       .post(bookController.addBook);
 
+
 router.route('/:id')
-      .get(bookController.getBookById);
+      .get(bookController.getBookById)
+      .delete(bookController.deleteBook);
 
 
 

@@ -34,7 +34,7 @@ const router = _express2.default.Router();
 
 router.route('/').get(bookController.getBooks).post(bookController.addBook);
 
-router.route('/:id').get(bookController.getBookById);
+router.route('/:id').get(bookController.getBookById).delete(bookController.deleteBook);
 
 exports.default = router;
 //# sourceMappingURL=book.server.route.js.map

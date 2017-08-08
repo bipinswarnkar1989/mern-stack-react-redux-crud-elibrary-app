@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import multer from 'multer';
+import fs from 'fs';
 //import models
 import  Book from '../models/book.server.model';
 
@@ -65,9 +66,23 @@ export const addBook = (req,res) => {
 export const getBookById = (req,res) => {
   Book.find({_id:req.params.id}).exec((err,book) => {
     if(err){
-    return res.json({'message':'Some Error'});
+    return res.json({'success':false,'message':'Some Error'});
     }
+    if(book.length){
+      return res.json({'success':true,'message':'Book fetched by id successfully',book});
+    }
+    else{
+      return res.json({'success':false,'message':'Book with the given id not found'});
+    }
+  })
+}
 
-    return res.json({'message':'Book fetched by id successfully',book});
+export const deleteBook = (req,res) => {
+  Book.findByIdAndRemove(req.params.id,(err,book) => {
+    if(err){
+    return res.json({'success':false,'message':'Some Error','error':err});
+    }
+    fs.unlink(book.filePath);
+    return res.json({'success':true,'message':book.title+' deleted successfully'});
   })
 }

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getBookById = exports.getBooks = exports.addBook = undefined;
+exports.deleteBook = exports.getBookById = exports.getBooks = exports.addBook = undefined;
 
 var _mongoose = require('mongoose');
 
@@ -12,6 +12,10 @@ var _mongoose2 = _interopRequireDefault(_mongoose);
 var _multer = require('multer');
 
 var _multer2 = _interopRequireDefault(_multer);
+
+var _fs = require('fs');
+
+var _fs2 = _interopRequireDefault(_fs);
 
 var _bookServer = require('../models/book.server.model');
 
@@ -79,10 +83,23 @@ const getBooks = exports.getBooks = (req, res, next) => {
 const getBookById = exports.getBookById = (req, res) => {
   _bookServer2.default.find({ _id: req.params.id }).exec((err, book) => {
     if (err) {
-      return res.json({ 'message': 'Some Error' });
+      return res.json({ 'success': false, 'message': 'Some Error' });
     }
+    if (book.length) {
+      return res.json({ 'success': true, 'message': 'Book fetched by id successfully', book });
+    } else {
+      return res.json({ 'success': false, 'message': 'Book with the given id not found' });
+    }
+  });
+};
 
-    return res.json({ 'message': 'Book fetched by id successfully', book });
+const deleteBook = exports.deleteBook = (req, res) => {
+  _bookServer2.default.findByIdAndRemove(req.params.id, (err, book) => {
+    if (err) {
+      return res.json({ 'success': false, 'message': 'Some Error', 'error': err });
+    }
+    _fs2.default.unlink(book.filePath);
+    return res.json({ 'success': true, 'message': book.title + ' deleted successfully' });
   });
 };
 //# sourceMappingURL=book.server.controller.js.map

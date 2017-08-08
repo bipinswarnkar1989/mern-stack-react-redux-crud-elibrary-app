@@ -2,7 +2,7 @@
 import Axios from 'axios';
 
 //API URL
-const apiUrl = 'http://localhost:8080/api/';
+const apiUrl = 'http://localhost:3000/api/';
 
 export const hideBookMessage = () => {
   return {
@@ -182,4 +182,60 @@ export const fetchFavourite = () => {
                   throw(error);
                 })
   }
+}
+
+//sync action to show Delete book model
+export const showDeleteModal = (bookToDelete) => {
+  return{
+    type: 'SHOW_DELETE_MODAL',
+    bookToDelete
+  }
+}
+
+export const hideDeleteModal = () => {
+  return{
+    type: 'HIDE_DELETE_MODAL'
+  }
+}
+
+export const confirmDeleteBookRequest = (bookToDelete) => {
+  return{
+    type: 'CONFIRM_DELETE_BOOK_REQUEST',
+    bookToDelete
+  }
+}
+
+export const confirmDeleteBookRequestSuccess = (message, deletedBookId) => {
+  return{
+    type: 'CONFIRM_DELETE_BOOK_REQUEST_SUCCESS',
+    message:message,
+    deletedBookId:deletedBookId
+  }
+}
+
+export const confirmDeleteBookRequestFailed = (message) => {
+  return{
+    type: 'CONFIRM_DELETE_BOOK_REQUEST_FAILED',
+    message
+  }
+}
+
+export const confirmDeleteBook = (bookToDelete) => {
+    return (dispatch) => {
+      dispatch(confirmDeleteBookRequest(bookToDelete));
+      return Axios.delete(apiUrl + 'book/' + bookToDelete._id)
+                  .then(response => {console.log(response);
+                    if(response.data.success){
+                      //dispatch another action to consume data
+                       dispatch(confirmDeleteBookRequestSuccess(response.data.message,bookToDelete._id));
+                    }
+                    else{
+                      //dispatch another action to consume data
+                       dispatch(confirmDeleteBookRequestFailed(response.data.message));
+                    }
+                  })
+                  .catch((error) => {
+                     //dispatch(confirmDeleteBookRequestFailed(error));
+                  })
+    }
 }

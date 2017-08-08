@@ -23,7 +23,9 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.use(express.static('static'));
+app.use(express.static('uploads'));
+app.use(express.static(path.join(__dirname, 'static')));
+
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,9 +36,14 @@ app.use('/api/book',bookRoutes);
 app.use('/api/favourite',favouriteRoutes);
 
 
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/public/index.html'));
+});
 
 //catch 404
-app.use(function(req,res){
+app.use((req,res) => {
   res.end('Page Not Found');
 })
 
