@@ -20,5 +20,7 @@ const router = _express2.default.Router();
 
 router.route('/').get(favouriteController.getFavourites).post(favouriteController.addFavourite);
 
+router.route('/:id').delete(favouriteController.deleteFavourite);
+
 exports.default = router;
 //# sourceMappingURL=favourite.server.route.js.map

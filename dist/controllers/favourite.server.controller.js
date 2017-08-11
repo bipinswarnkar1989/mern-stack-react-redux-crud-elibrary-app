@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getFavourites = exports.addFavourite = undefined;
+exports.deleteFavourite = exports.getFavourites = exports.addFavourite = undefined;
 
 var _mongoose = require('mongoose');
 
@@ -42,6 +42,16 @@ const getFavourites = exports.getFavourites = (req, res, next) => {
     }
 
     return res.json({ 'success': true, 'message': 'Favourites fetched successfully', favourites });
+  });
+};
+
+const deleteFavourite = exports.deleteFavourite = (req, res) => {
+  _favouriteServer2.default.findByIdAndRemove(req.params.id, (err, book) => {
+    if (err) {
+      return res.json({ 'success': false, 'message': 'Some Error', 'error': err });
+    }
+
+    return res.json({ 'success': true, 'message': 'Favourite Deleted Successfully' });
   });
 };
 //# sourceMappingURL=favourite.server.controller.js.map

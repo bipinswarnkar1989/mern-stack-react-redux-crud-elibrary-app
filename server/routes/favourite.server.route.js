@@ -7,7 +7,10 @@ const router = express.Router();
 
 router.route('/')
       .get(favouriteController.getFavourites)
-      .post(favouriteController.addFavourite)
+      .post(favouriteController.addFavourite);
+
+router.route('/:id')
+      .delete(favouriteController.deleteFavourite);
 
 
 export default router;

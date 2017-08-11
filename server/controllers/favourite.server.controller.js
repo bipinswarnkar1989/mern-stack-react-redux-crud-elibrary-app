@@ -31,3 +31,15 @@ export const addFavourite = (req,res) => {
            return res.json({'success':true,'message':'Favourites fetched successfully',favourites});
          })
 }
+
+export const deleteFavourite = (req,res) => {
+  Favourite.findByIdAndRemove(req.params.id,(err,book) => {
+    if(err){
+    return res.json({'success':false,'message':'Some Error','error':err});
+    }
+  
+    return res.json({'success':true,'message':'Favourite Deleted Successfully'});
+
+
+  })
+}

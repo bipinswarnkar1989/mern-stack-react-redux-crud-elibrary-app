@@ -32,7 +32,7 @@ const router = _express2.default.Router();
 //
 // var upload = multer({ storage: storage }).single('file');
 
-router.route('/').get(bookController.getBooks).post(bookController.addBook);
+router.route('/').get(bookController.getBooks).post(bookController.addBook).put(bookController.editBook);
 
 router.route('/:id').get(bookController.getBookById).delete(bookController.deleteBook);
 

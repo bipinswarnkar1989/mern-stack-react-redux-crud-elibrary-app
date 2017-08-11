@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteBook = exports.getBookById = exports.getBooks = exports.addBook = undefined;
+exports.editBook = exports.deleteBook = exports.getBookById = exports.getBooks = exports.addBook = undefined;
 
 var _mongoose = require('mongoose');
 
@@ -21,9 +21,15 @@ var _bookServer = require('../models/book.server.model');
 
 var _bookServer2 = _interopRequireDefault(_bookServer);
 
+var _favouriteServer = require('../models/favourite.server.model');
+
+var _favouriteServer2 = _interopRequireDefault(_favouriteServer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //set multer storage
+
+//import models
 let storage = _multer2.default.diskStorage({
   destination: (req, file, cb) => {
     cb(null, './uploads');
@@ -34,8 +40,6 @@ let storage = _multer2.default.diskStorage({
     cb(null, file.fieldname + '-' + date + '_' + yourfilename + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1]);
   }
 });
-//import models
-
 
 const Upload = (0, _multer2.default)({
   storage: storage,
@@ -99,7 +103,33 @@ const deleteBook = exports.deleteBook = (req, res) => {
       return res.json({ 'success': false, 'message': 'Some Error', 'error': err });
     }
     _fs2.default.unlink(book.filePath);
-    return res.json({ 'success': true, 'message': book.title + ' deleted successfully' });
+    _favouriteServer2.default.remove({ 'book': req.params.id }, err => {
+      if (err) {
+        return res.json({ 'success': false, 'message': 'Some error', 'error': err });
+      }
+      return res.json({ 'success': true, 'message': book.title + ' deleted successfully' });
+    });
+  });
+};
+
+const editBook = exports.editBook = (req, res) => {
+  Upload(req, res, err => {
+    if (err) {
+      console.log('ERROR:' + err);
+      return res.json({ 'success': false, 'message': 'Failed. Only pdf allowed', err });;
+    } else {
+      console.log('id:' + req.body._id);
+      _fs2.default.unlink(req.body.filePath);
+      req.body.filePath = req.file.path;
+      req.body.fileName = req.file.filename;
+      _bookServer2.default.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true }, (err, book) => {
+        if (err) {
+          return res.json({ 'success': false, 'message': 'Some Error', 'error': err });
+        }
+        console.log(book);
+        return res.json({ 'success': true, 'message': 'Updated successfully', book });
+      });
+    }
   });
 };
 //# sourceMappingURL=book.server.controller.js.map

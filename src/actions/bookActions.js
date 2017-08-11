@@ -114,75 +114,6 @@ export const fetchBookById = (bookId) => {
   }
 };
 
-export const addToFavouriteRequest = () => {
-  return{
-    type: 'ADD_TO_FAVOURITE_REQUEST'
-  }
-}
-
-//Sync action
-export const addToFavouriteSuccess = (item) => {
-  return {
-    type: 'ADD_TO_FAVOURITE_SUCCESS',
-    item
-  }
-}
-
-export const addToFavouriteFailed = (message) => {
-  return{
-    type: 'ADD_TO_FAVOURITE_FAILED',
-    message
-  }
-}
-
-//Async action
-export const addToFavourite = (item) => {
-  //Return action
-  return (dispatch) => {
-        dispatch(addToFavouriteRequest());
-    return Axios.post(apiUrl + 'favourite', item)
-                .then(response => {
-                  if(response.data.success){
-                  //Handle date with sync action
-                  dispatch(addToFavouriteSuccess(response.data.f))
-                }
-                else{
-                    dispatch(addToFavouriteFailed(response.data.message));
-                }
-                })
-                .catch(error => {
-                  throw(error);
-                })
-  }
-};
-
-export const fetchFavouriteRequest = () => {
-  return{
-    type: 'FETCH_FAVOURITE_REQUEST'
-  }
-}
-
-//Sync action
-export const fetchFavouriteSuccess = (items) => {
-  return {
-    type: 'FETCH_FAVOURITE_SUCCESS',
-    items
-  }
-}
-
-//Async action
-export const fetchFavourite = () => {
-  return (dispatch) => {
-          dispatch(fetchFavouriteRequest());
-    return Axios.get(apiUrl + 'favourite')
-                .then(response => {
-                  dispatch(fetchFavouriteSuccess(response.data.favourites))
-                })
-                .catch(error => {
-                  throw(error);
-                })
-  }
-}
 
 //sync action to show Delete book model
 export const showDeleteModal = (bookToDelete) => {
@@ -234,8 +165,67 @@ export const confirmDeleteBook = (bookToDelete) => {
                        dispatch(confirmDeleteBookRequestFailed(response.data.message));
                     }
                   })
-                  .catch((error) => {
-                     //dispatch(confirmDeleteBookRequestFailed(error));
+                  .catch(error => {
+                     dispatch(confirmDeleteBookRequestFailed(error));
                   })
     }
+}
+
+export const showEditModal = (bookToEdit) => {
+  return{
+    type: 'SHOW_EDIT_MODAL',
+    bookToEdit
+  }
+}
+
+export const hideEditModal = () => {
+  return{
+    type: 'HIDE_EDIT_MODAL'
+  }
+}
+
+export const editBookRequest = (bookToEdit) => {
+  return{
+    type: 'EDIT_BOOK_REQUEST',
+    bookToEdit
+  }
+}
+
+export const editBookRequestSuccess = (book,message) => {
+  return{
+    type: 'EDIT_BOOK_REQUEST_SUCCESS',
+    book:book,
+    message:message
+  }
+}
+
+export const editBookRequestFailed = (message) => {
+  return{
+    type:'EDIT_BOOK_REQUEST_FAILED',
+    message
+  }
+}
+
+export const editBook = (bookToEdit) => {
+  return (dispatch) => {
+    dispatch(editBookRequest(bookToEdit));
+    return Axios.put(apiUrl +'book', bookToEdit)
+                .then(response => {
+                  if(response.data.success){
+                    dispatch(editBookRequestSuccess(response.data.book,response.data.message));
+                  }
+                  else{
+                    dispatch(editBookRequestFailed(response.data.message));
+                  }
+                })
+               .catch(err => {
+                  dispatch(editBookRequestFailed(err));console.log(err);
+               })
+  }
+}
+
+export const handleEditBookFormChange = () => {
+  return{
+    type:'HANDLE_EDIT_BOOK_FORM_CHANGE'
+  }
 }

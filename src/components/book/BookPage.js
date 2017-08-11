@@ -7,6 +7,7 @@ import { Alert,Glyphicon,Button,Modal } from 'react-bootstrap';
 import * as bookActions from '../../actions/bookActions';
 import BookForm from './BookForm';
 import * as appActions from '../../actions/appActions';
+import BookEditForm from './BookEditForm';
 
 import './BookPage.css';
 
@@ -16,6 +17,9 @@ class BookPage extends React.Component {
      this.hideBookMessage = this.hideBookMessage.bind(this);
      this.hideDeleteModal = this.hideDeleteModal.bind(this);
      this.cofirmDeleteBook = this.cofirmDeleteBook.bind(this);
+     this.hideEditModal = this.hideEditModal.bind(this);
+     this.submitEditBook = this.submitEditBook.bind(this);
+     this.handleEditChange = this.handleEditChange.bind(this);
    }
   componentWillMount() {
     this.props.fetchBooks();
@@ -67,7 +71,44 @@ class BookPage extends React.Component {
   }
 
   showEditModal(bookToEdit){
+     this.props.mappedshowEditModal(bookToEdit);
+  }
 
+  hideEditModal(){
+      this.props.mappedhideEditModal();
+  }
+
+  submitEditBook(e){
+     e.preventDefault();
+     const editForm = document.getElementById('bookEditForm');
+     if(editForm.file.value === '' || editForm.title.value === '' || editForm.author.value === '' || editForm.price.value === '' || editForm.year.value === ''){
+       this.props.mappededitBookFailed('Fill all fields');
+       return;
+     }
+     else{
+       const fileName = document.getElementById('editfile').files[0].name;
+       const fileExt = fileName.split('.').pop();
+       if(fileExt === "pdf"){
+         const data = new FormData();
+         data.append('_id',editForm.BookId.value);
+         data.append('title',editForm.title.value);
+         data.append('author',editForm.author.value);
+         data.append('price', editForm.price.value);
+         data.append('year',editForm.year.value);
+         data.append('file',document.getElementById('editfile').files[0]);
+         data.append('filePath',editForm.filePath.value);
+         this.props.mappededitBook(data);
+
+       }
+       else{
+       alert('Only pdf file is allowed');
+     }
+     }
+
+  }
+
+  handleEditChange(){
+    this.props.mappededitBookFormChanged();
   }
 
 
@@ -77,6 +118,7 @@ class BookPage extends React.Component {
     let { bookAddMessage, BookMessageStyle }= this.props;
     const MapAppState  = this.props.mappedAppSate;
     const deleteBook = this.props.mapppedBookToDel;
+    const editBook = this.props.mapppedBookToEdit;
     const isEmpty = books.length === 0;
     if (!book && isAdding) {
       bookAddMessage = 'New Book Adding..';
@@ -186,7 +228,42 @@ class BookPage extends React.Component {
       </Modal.Footer>
     </Modal>
 
-
+    {/* Modal for editing book */}
+    <Modal
+      show={editBook.showEditModal}
+      onHide={this.hideEditModal}
+      container={this}
+      aria-labelledby="contained-modal-title"
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title">Edit Your Book</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+    <div className="col-md-12">
+    {editBook.bookToEdit &&
+    <BookEditForm bookData={editBook.bookToEdit} submitEditBook={this.submitEditBook} handleChange={this.handleEditChange}/>
+    }
+    {editBook.bookToEdit && editBook.isFetching &&
+      <Alert bsStyle="info">
+  <strong>Updating...... </strong>
+      </Alert>
+    }
+    {editBook.bookToEdit && !editBook.isFetching && editBook.error &&
+      <Alert bsStyle="danger">
+  <strong>Failed. {editBook.error} </strong>
+      </Alert>
+    }
+    {editBook.bookToEdit && !editBook.isFetching && editBook.successMsg &&
+      <Alert bsStyle="success">
+  Book <strong> {editBook.bookToEdit.title} </strong>{editBook.successMsg}
+      </Alert>
+    }
+    </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={this.hideEditModal}>Close</Button>
+      </Modal.Footer>
+    </Modal>
       </div>
     );
   }
@@ -199,7 +276,8 @@ const mapStateToProps = (state,ownProps) => {
     booksList: state.books.booksList,
     newBook: state.books.newBook,
     mappedAppSate: state.appState,
-    mapppedBookToDel: state.books.deleteBook
+    mapppedBookToDel: state.books.deleteBook,
+    mapppedBookToEdit: state.books.editBook
   }
 };
 
@@ -213,7 +291,12 @@ const mapDispatchToProps = (dispatch) => {
     mappedhideBookMessage: () => dispatch(bookActions.hideBookMessage()),
     mappedshowDeleteModal: bookToDelete => dispatch(bookActions.showDeleteModal(bookToDelete)),
     mappedhideDeleteModal: () => dispatch(bookActions.hideDeleteModal()),
-    mappedConfirmDeleteBook: (bookToDelete) => dispatch(bookActions.confirmDeleteBook(bookToDelete))
+    mappedConfirmDeleteBook: (bookToDelete) => dispatch(bookActions.confirmDeleteBook(bookToDelete)),
+    mappedshowEditModal: bookToEdit => dispatch(bookActions.showEditModal(bookToEdit)),
+    mappedhideEditModal: () => dispatch(bookActions.hideEditModal()),
+    mappededitBook: bookFormData => dispatch(bookActions.editBook(bookFormData)),
+    mappededitBookFailed: (book,message) => dispatch(bookActions.editBookRequestFailed(book,message)),
+    mappededitBookFormChanged: () => dispatch(bookActions.handleEditBookFormChange())
   }
 }
 

@@ -7,7 +7,15 @@ const INITIAL_STATE = { booksList: {books: [], error:null, isFetching: false},
 							  bookToDelete: null,
 							  isFetching: false,
 							  error: null,
-							  successMsg:null}
+							  successMsg:null
+							},
+							editBook:{
+									showEditModal: false,
+								  bookToEdit: null,
+								  isFetching: false,
+								  error: null,
+								  successMsg:null
+								}
 						};
 
 // For handling array of books
@@ -62,6 +70,41 @@ export const booksReducer =  (currentState = INITIAL_STATE, action) => {
 	 				...currentState, booksList: {books:filterdBooks, error:null, isFetching: false}, deleteBook: {showDeleteModal:true, bookToDelete:null, isFetching:false, error:null,successMsg:action.message}
 	 			}
 
+	 case 'SHOW_EDIT_MODAL':
+	      return {
+					...currentState, booksList: {books:[...currentState.booksList.books], error:null, isFetching: false}, editBook:{showEditModal:true, bookToEdit:action.bookToEdit}
+				}
+
+		case 'HIDE_EDIT_MODAL':
+				return {
+					...currentState, booksList: {books:[...currentState.booksList.books], error:null, isFetching: false}, editBook:{showEditModal:false, bookToEdit:null}
+				}
+
+		case 'EDIT_BOOK_REQUEST':
+				return {
+					...currentState, booksList: {books:[...currentState.booksList.books], error:null, isFetching: false}, editBook:{showEditModal:true, bookToEdit:action.bookToEdit, isFetching:true, error:null, successMsg:null}
+				}
+
+		case 'EDIT_BOOK_REQUEST_FAILED':
+				return {
+					...currentState, booksList: {books:[...currentState.booksList.books], error:null, isFetching: false}, editBook:{showEditModal:true, bookToEdit:currentState.editBook.bookToEdit, isFetching:false, error:action.message, successMsg:null}
+				}
+
+		case 'EDIT_BOOK_REQUEST_SUCCESS':
+		    const updatedState = currentState.booksList.books.map((book) => {
+					if(book._id === action.book._id){
+						return {...book, ...action.book};
+					}
+					return book;
+				});
+				return {
+					...currentState, booksList: {books:updatedState, error:null, isFetching: false}, editBook:{showEditModal:true, bookToEdit:action.book, isFetching:false, error:null, successMsg:action.message}
+				}
+
+		case 'HANDLE_EDIT_BOOK_FORM_CHANGE':
+		      return {
+						...currentState, booksList: {books:[...currentState.booksList.books], error:null, isFetching: false}, editBook:{showEditModal:true, bookToEdit:currentState.editBook.bookToEdit, isFetching:false, error:null, successMsg:null}
+					}
 
     default:
         return currentState;

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import BookDetails from './BookDetails';
 
 import * as bookActions from '../../actions/bookActions';
+import * as favouriteActions from '../../actions/favouriteActions';
 
 class BookDetailsPage extends React.Component{
   constructor(props, context){
@@ -43,7 +44,7 @@ const mapStateToProps = (state,ownProps) => {
      // the Ajax request we setup
      // in our actions
      mappedfetchBookById: bookId => dispatch(bookActions.fetchBookById(bookId)),
-     mappedaddToFavourite: item => dispatch(bookActions.addToFavourite(item))
+     mappedaddToFavourite: item => dispatch(favouriteActions.addToFavourite(item))
    }
  }
 

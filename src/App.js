@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import * as appActions from './actions/appActions';
 import { connect } from 'react-redux';
-import { Navbar,Nav,NavItem,NavDropdown,MenuItem } from 'react-bootstrap';
+import { Navbar,Nav,NavItem,MenuItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import './App.css';
@@ -19,28 +19,6 @@ class App extends React.Component {
   }
   render(){
     return (
-      // <div className="container">
-      //   <nav className="navbar navbar-default">
-      //     <div className="container-fluid">
-      //       <div className="navbar-header">
-      //         <a className="navbar-brand" href="/#">Books</a>
-      //       </div>
-      //       <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      //         <ul className="nav navbar-nav">
-      //           <li><Link to="/">Home</Link></li>
-      //           <li><Link to="/about">About</Link></li>
-      //           <li><Link to="/books">Books</Link></li>
-      //           <li><Link to="/favourites">Favourites</Link></li>
-      //           {this.props.location.pathname === '/books' &&
-      //           <li><a href="/#" onClick={this.toggleAddBook}>Add Book</a></li>
-      //           }
-      //         </ul>
-      //       </div>
-      //     </div>
-      //   </nav>
-      //   { /* Each Smaller Components */}
-      //   {this.props.children}
-      // </div>
       <div>
       <Navbar inverse  collapseOnSelect className="customNav">
     <Navbar.Header>
@@ -60,14 +38,6 @@ class App extends React.Component {
         <LinkContainer to="/favourites">
            <NavItem eventKey={3}>Favourites</NavItem>
         </LinkContainer>
-
-        <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-          <MenuItem eventKey={3.1}>Action</MenuItem>
-          <MenuItem eventKey={3.2}>Another action</MenuItem>
-          <MenuItem eventKey={3.3}>Something else here</MenuItem>
-          <MenuItem divider />
-          <MenuItem eventKey={3.3}>Separated link</MenuItem>
-        </NavDropdown>
       </Nav>
       <Nav pullRight>
       {this.props.location.pathname === '/books' &&

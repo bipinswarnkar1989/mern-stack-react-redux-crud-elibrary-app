@@ -3,6 +3,7 @@ import multer from 'multer';
 import fs from 'fs';
 //import models
 import  Book from '../models/book.server.model';
+import  Favourite from '../models/favourite.server.model';
 
 //set multer storage
 let storage = multer.diskStorage({
@@ -83,6 +84,34 @@ export const deleteBook = (req,res) => {
     return res.json({'success':false,'message':'Some Error','error':err});
     }
     fs.unlink(book.filePath);
-    return res.json({'success':true,'message':book.title+' deleted successfully'});
+    Favourite.remove({'book':req.params.id},(err) => {
+      if(err){
+        return res.json({'success':false,'message':'Some error','error':err});
+      }
+      return res.json({'success':true,'message':book.title+' deleted successfully'});
+    })
+
+  })
+}
+
+export const editBook = (req,res) => {
+  Upload(req,res, (err) => {
+    if(err){
+      console.log('ERROR:'+err);
+      return res.json({'success':false,'message':'Failed. Only pdf allowed',err});;
+    }
+    else{
+      console.log('id:'+req.body._id);
+      fs.unlink(req.body.filePath);
+      req.body.filePath = req.file.path;
+      req.body.fileName = req.file.filename;
+      Book.findOneAndUpdate({_id:req.body._id}, req.body, { new: true }, (err,book) => {
+        if(err){
+        return res.json({'success':false,'message':'Some Error','error':err});
+        }
+        console.log(book);
+        return res.json({'success':true,'message':'Updated successfully',book});
+      })
+    }
   })
 }

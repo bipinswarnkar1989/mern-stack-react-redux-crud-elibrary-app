@@ -20,7 +20,8 @@ const router = express.Router();
 
 router.route('/')
       .get(bookController.getBooks)
-      .post(bookController.addBook);
+      .post(bookController.addBook)
+      .put(bookController.editBook);
 
 
 router.route('/:id')
