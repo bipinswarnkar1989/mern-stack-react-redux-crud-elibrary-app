@@ -8,3 +8,10 @@
 .addBookHeading{color: #EE6E73;text-decoration: underline;}
 .addBookBox .form-group{padding: 2px;}
 .textCenter{text-align: center;vertical-align: middle;}
+.bookDetail{
+  width: 80%;
+  height: 90%;
+  margin: 0 auto;
+  padding: 10px 30px 10px 30px;
+}
+.small_pdf_image{border:1px solid green;}
